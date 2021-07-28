@@ -1,8 +1,10 @@
 # ISL
 ISL study group material
 
-* gbm_26may: Filipe Santos's material on GBMs and his recommended training courses / books
-* segmentation_23jun: Aidan Redmond's example on clustering/segmenting of census data
+* gbm_26may: Filipe Santos's material on GBMs and his recommended training courses / books (Session 2)
+* segmentation_23jun: Aidan Redmond's example on clustering/segmenting of census data (Session 3)
+* house_models_23jun: Donal McGinley's example on modelling house prices (Session 3)
+* pca_21jul: John Nolan's presentation on multivariate analysis and PCA (Session 4)
 
 Other examples are located:
 

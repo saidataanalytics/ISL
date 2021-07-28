@@ -1,0 +1,94 @@
+Principal Component Analysis (PCA)
+====================
+We will use the `USArrests` data (which is in R)
+
+`USArrests` data is a data frame with 50 observations on 4 variables.
+
+[,1]	Murder (Numeric):	Murder arrests (per 100,000)
+
+[,2]	Assault (Numeric):Assault arrests (per 100,000)
+
+[,3]	UrbanPop (Numeric):	Percent urban population
+
+[,4]	Rape (Numeric): Rape arrests (per 100,000)
+
+
+```{r}
+head(USArrests)
+dimnames(USArrests)
+```
+
+The *apply()* function allows us to apply a formula. Let's use this to calculate the mean and variance.
+
+Note: The second input here denotes whether we wish to compute the mean of the rows (1) or the columns (2).
+
+
+```{r}
+apply(USArrests,2,mean)
+apply(USArrests,2, var)
+```
+
+We see that `Assault` has a much larger variance than the other variables. It would dominate the principal components, so we choose to **standardize** the variables to have mean 0 and SD 1 when we perform PCA.
+
+
+We now perform Principal Components Analysis using the **prcomp()** function
+
+```{r}
+pca.out=prcomp(USArrests, scale=TRUE)
+```
+
+Let's examine the **pca.out** object. Some observations:
+
+* Standard Deviation is the SD of the Principal Components. NOTE how they are all decreasing.
+
+* Rotation refers to the loadings. e.g. First principal component is loaded almost equally across all compnents (like an average across all 3).
+
+* PCA doesn't care about the signs - all about the variance
+
+* First Principal component focuses on crime
+
+* Second principal component focuses on urban pop
+```{r}
+pca.out
+```
+
+Let's get a summary of the object
+
+```{r}
+summary(pca.out)
+```
+
+
+Now, let's look at a scree plot. This plots the variance explained by the
+principal components.
+
+```{r}
+layout(matrix(1:2, ncol=2))
+screeplot(pca.out)
+screeplot(pca.out, type="lines")
+```
+
+Plot the "Percentage of variance Explained" (PVE) of each principal component (i.e. a scree plot) and the cumulative PVE of each principal component. This can be done with just a
+little work.
+
+```{r}
+pve=100*pca.out$sdev^2/sum(pca.out$sdev^2)
+par(mfrow=c(1,2))
+plot(pve, type="o", ylab="PVE", xlab="Principal Component",col =" blue")
+plot(cumsum(pve), type="o", ylab="Cumulative PVE", xlab="Principal Component ", col =" brown3 ")
+```
+
+
+Finally, let's plot the first two principal components and analyse the output
+
+* Biplot: Both the loadings/ principal component scores and the observations (i.e. states) are in the one plot
+* Observations are the states
+* Red shows the directions of the loadings for the principal components. 
+* First Axis - largely related to the amount of crime in the state
+* Second Axis - loading is mainly urban population, so this axis is whether state has large urban population or not.
+
+
+```{r}
+biplot(pca.out, scale=0, cex = 0.6)
+```
+
